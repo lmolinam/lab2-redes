@@ -15,12 +15,12 @@ def rellenar_byte(byte):
     return byte
 
 def mensaje_a_binario(nombre_archivo):
-    data = utils.leer_archivo(PATH_INPUT, nombre_archivo)
+    data = utils.leer_archivo_como_lista(PATH_INPUT, nombre_archivo)
     binary_data = [rellenar_byte(bin(ord(char))[2:])  for char in data]
 
     return binary_data
 
-def binario_a_palabra(mensaje_binario):
+def codificar_mensaje(mensaje_binario):
     coded_data = ""
     for byte in mensaje_binario:
         byte_iterator = iter(byte)
@@ -34,8 +34,8 @@ def binario_a_palabra(mensaje_binario):
                 coded_data = f"{coded_data}10110"
             elif bit == "1" and next_bit == "1":
                 coded_data = f"{coded_data}11001"
-    print(coded_data)
-    utils.escribir_archivo(PATH_OUTPUT, ARCHIVO_SALIDA, coded_data)
+    
+    return coded_data
 
 
 if len(sys.argv) < 2:
@@ -46,4 +46,5 @@ else:
     ARCHIVO_ENTRADA = sys.argv[1]
 
 mensaje_binario = mensaje_a_binario(ARCHIVO_ENTRADA)
-binario_a_palabra(mensaje_binario)
+mensaje_codificado = codificar_mensaje(mensaje_binario)
+utils.escribir_archivo(PATH_OUTPUT, ARCHIVO_SALIDA, mensaje_codificado)
